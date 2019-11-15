@@ -2,6 +2,10 @@ const request = require("supertest");
 const db = require("../database/dbConfig");
 const server = require("../api/server");
 
+beforeEach(async () => {
+  await db("users").truncate();
+});
+
 describe("testing jokes endpoint", () => {
   test("logged in user can get jokes", async () => {
     const response = await request(server)
