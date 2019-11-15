@@ -19,7 +19,16 @@ router.post("/register", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
-  // implement login
+  const {username, password} = req.body;
+  db.findBy(username).then(user => {
+    if(user && bcrypt.compareSync(password,user.password)){
+      res.status(200).json({success: `Welcome ${user.username}`});
+    }
+    else {
+      res.status(403).json({forbidden: "Please provide a valid password"});
+    }
+    
+  })
 });
 
 module.exports = router;
